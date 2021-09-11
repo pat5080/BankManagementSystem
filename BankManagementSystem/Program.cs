@@ -1,4 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using static System.ConsoleColor;
+using System.Drawing;
 
 namespace BankManagementSystem
 {
@@ -6,7 +12,10 @@ namespace BankManagementSystem
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
+
+            Login login1 = new Login();
+            RenderScreen render = new RenderScreen(login1);
+
         }
     }
 }
