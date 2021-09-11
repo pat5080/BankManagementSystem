@@ -15,7 +15,7 @@ namespace BankManagementSystem
 
             Login login1 = new Login();
             RenderScreen render = new RenderScreen(login1);
-
+            render.ScreenRenderer();
         }
     }
 }

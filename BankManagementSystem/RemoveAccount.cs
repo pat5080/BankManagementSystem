@@ -10,6 +10,13 @@ namespace BankManagementSystem
         {
             Fields = 1;
             ScreenName = "Delete and remove account";
+
+        }
+
+        protected override void InitialiseInputArray()
+        {
+            Input[0] = "Username: ";
+            Input[1] = "Password: ";
         }
     }
 }

@@ -6,22 +6,27 @@ namespace BankManagementSystem
 {
     class RenderScreen
     {
-        private int fields;
-        private String screenName;
+        private static int origRow = 0;
+        private static int origCol = 0;
 
-        protected static int origRow = 0;
-        protected static int origCol = 0;
+        private int Fields;
+        private String Title;
+        private String SubTitle;
 
         Screen myScreen;
 
         public RenderScreen(Screen myScreen)
         {
             this.myScreen = myScreen;
+
+            Fields = myScreen.Fields;
+            Title = myScreen.Title;
+            SubTitle = myScreen.SubTitle;
         }
 
         public void ScreenRenderer()
         {
-            int noLines = 5 + (fields*3);
+            int noLines = 5 + (Fields*3);
             int startRow = 2, startCol = 10;
             int formWidth = 50;
 
@@ -31,7 +36,6 @@ namespace BankManagementSystem
 
             for (int line = 0; line < noLines; line++)
             {
-                // Print boarder
                 if (line == 0 | line == 2 | line == (noLines - 1))
                 {
                     for (int col = 0; col < formWidth; col++)

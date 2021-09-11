@@ -11,5 +11,11 @@ namespace BankManagementSystem
             Fields = 5;
             ScreenName = "Create new account";
         }
+
+        protected override void InitialiseInputArray()
+        {
+            Input[0] = "Username: ";
+            Input[1] = "Password: ";
+        }
     }
 }
