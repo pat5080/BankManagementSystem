@@ -4,14 +4,13 @@ using System.Text;
 
 namespace BankManagementSystem
 {
-    abstract class Screen
+       class Screen
     {
         public int Fields;
         public String ScreenName;
         public String Title;
         public String SubTitle;
-        public String[] Input;
+        public string[] Input;
 
-        protected abstract void InitialiseInputArray();
     }
 }

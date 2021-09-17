@@ -10,12 +10,10 @@ namespace BankManagementSystem
         {
             Fields = 1;
             ScreenName = "Account Statement";
+            Title = "STATEMENT";
+            SubTitle = "ENTER THE DETAILS";
+            Input = new string[] { "Account Number: "};
         }
 
-        protected override void InitialiseInputArray()
-        {
-            Input[0] = "Username: ";
-            Input[1] = "Password: ";
-        }
     }
 }

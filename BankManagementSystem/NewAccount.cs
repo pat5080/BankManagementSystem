@@ -9,13 +9,11 @@ namespace BankManagementSystem
         public NewAccount()
         {
             Fields = 5;
+            Title = "CREATE A NEW ACCOUNT";
+            SubTitle = "ENTER THE DETAILS";
             ScreenName = "Create new account";
+            Input = new string[] { "First Name: ", "Last Name: ", "Address: ", "Phone: ", "Email: " };
         }
 
-        protected override void InitialiseInputArray()
-        {
-            Input[0] = "Username: ";
-            Input[1] = "Password: ";
-        }
     }
 }

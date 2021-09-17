@@ -12,12 +12,7 @@ namespace BankManagementSystem
             ScreenName = "Login Menu";
             Title = "WELCOME TO SIMPLE BANKING SYSTEM";
             SubTitle = "LOGIN TO START";
-        }
-
-        protected override void InitialiseInputArray()
-        {
-            Input[0] = "Username: ";
-            Input[1] = "Password: ";
-        }
+            Input = new string[] { "Username: ", "Password: " };
+    }
     }
 }

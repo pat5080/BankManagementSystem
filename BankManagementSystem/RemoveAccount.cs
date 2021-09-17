@@ -10,13 +10,10 @@ namespace BankManagementSystem
         {
             Fields = 1;
             ScreenName = "Delete and remove account";
-
+            Title = "DELETE AN ACCOUNT";
+            SubTitle = "ENTER THE DETAILS";
+            Input = new string[] { "Account Number: " };
         }
 
-        protected override void InitialiseInputArray()
-        {
-            Input[0] = "Username: ";
-            Input[1] = "Password: ";
-        }
     }
 }
