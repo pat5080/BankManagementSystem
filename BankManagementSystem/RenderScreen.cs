@@ -64,16 +64,22 @@ namespace BankManagementSystem
                     RenderSubTitle(startCol, startRow, formWidth, line);
                     WriteAt('|', startCol + formWidth - 1, startRow + line);
                 }
-                else if (line == 5 && myScreen.ScreenName == "Login Menu")
+                else if (line == 5)
                 {
                     WriteAt('|', startCol, startRow + line);
-                    RenderField(startCol, startRow, formWidth, line, ref LoginCursorX, ref LoginCursorY, 0);
+                    if (myScreen.ScreenName == "Login Menu")
+                    {
+                        RenderField(startCol, startRow, formWidth, line, ref LoginCursorX, ref LoginCursorY, 0);
+                    }
                     WriteAt('|', startCol + formWidth - 1, startRow + line);
                 }
                 else if (line == 6 && myScreen.ScreenName == "Login Menu")
                 {
                     WriteAt('|', startCol, startRow + line);
-                    RenderField(startCol, startRow, formWidth, line, ref PwdCursorX, ref PwdCursorY, 1);
+                    if (myScreen.ScreenName == "Login Menu")
+                    {
+                        RenderField(startCol, startRow, formWidth, line, ref PwdCursorX, ref PwdCursorY, 1);
+                    }
                     WriteAt('|', startCol + formWidth - 1, startRow + line);
                 }
                 else
