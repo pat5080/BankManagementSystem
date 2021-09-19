@@ -12,10 +12,14 @@ namespace BankManagementSystem
     {
         static void Main(string[] args)
         {
-
             Login login1 = new Login();
             RenderScreen render = new RenderScreen(login1);
             render.ScreenRenderer();
+            Console.ReadKey();
+            Console.Clear();
+            MainMenu menu = new MainMenu();
+            RenderScreen render1 = new RenderScreen(menu);
+            render1.ScreenRenderer();
         }
     }
 }

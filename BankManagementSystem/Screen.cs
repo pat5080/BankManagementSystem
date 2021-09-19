@@ -11,6 +11,5 @@ namespace BankManagementSystem
         public String Title;
         public String SubTitle;
         public string[] Input;
-
     }
 }
