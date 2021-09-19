@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Security;
+using System.IO;
+using System.Runtime.InteropServices;
 
 namespace BankManagementSystem
 {
@@ -94,11 +97,39 @@ namespace BankManagementSystem
                     WriteAt('|', startCol + formWidth - 1, startRow + line);
                 }
             }
+
+            ConsoleKeyInfo keyInfo;
+            SecureString pass = new SecureString();
+
             Console.SetCursorPosition(LoginCursorY, LoginCursorX);
             inputUserName = Console.ReadLine();
-            Console.SetCursorPosition(PwdCursorY, PwdCursorX);
-            password = Console.ReadLine();
 
+            Console.SetCursorPosition(PwdCursorY, PwdCursorX);
+
+            do
+            {
+                keyInfo = Console.ReadKey(true);
+                if (!char.IsControl(keyInfo.KeyChar))
+                {
+                    pass.AppendChar(keyInfo.KeyChar);
+                    Console.Write("*");
+                }
+
+            }
+            while (keyInfo.Key != ConsoleKey.Enter);
+
+            string password1 = ConvertToString(pass);
+
+            // Write a function to check whether the login details exist in login.txt
+            if(VerifyLogin(inputUserName, password1))
+            {
+                Console.WriteLine("Valid credentials!...   Please enter");
+            }
+            else
+            {
+                Console.WriteLine("Invalid credentials!");
+            }
+            
 
         }
 
@@ -124,5 +155,59 @@ namespace BankManagementSystem
                 WriteAt(letter, startCol+i, row);
             }
         }
+
+        private bool VerifyLogin(string user, string pass)
+        {
+ 
+            string line;
+            bool valid = false;
+            
+            Console.WriteLine(user);
+            Console.WriteLine(pass);
+            // Read the file and display it line by line.
+            System.IO.StreamReader file = new System.IO.StreamReader("login.txt");
+            String userRead;
+            String passRead;
+
+            while ((line = file.ReadLine()) != null)
+            {
+                int index = line.IndexOf('|');
+
+                userRead = line.Substring(0, index);
+                passRead = line.Substring(index + 1);
+
+                Console.WriteLine(userRead);
+                Console.WriteLine(passRead);
+
+                if (user.Equals(userRead) && pass.Equals(passRead))
+                {
+                    valid = true;
+                }
+            }
+
+            file.Close();
+
+            return valid;
+        }
+
+        private string ConvertToString(SecureString password)
+        {
+            if (password == null)
+            {
+                throw new ArgumentNullException("null password");
+            }
+
+            IntPtr unmanagedString = IntPtr.Zero;
+            try
+            {
+                unmanagedString = Marshal.SecureStringToGlobalAllocUnicode(password);
+                return Marshal.PtrToStringUni(unmanagedString);
+            }
+            finally
+            {
+                Marshal.ZeroFreeGlobalAllocUnicode(unmanagedString);
+            }
+        }
+
     }
 }
