@@ -15,6 +15,7 @@ namespace BankManagementSystem
         private int Fields;
         private String Title;
         private String SubTitle;
+        public int option;
 
         Screen myScreen;
 
@@ -29,7 +30,7 @@ namespace BankManagementSystem
 
         public void ScreenRenderer()
         {
-            int noLines = 5 + (Fields*3);
+            int noLines = 8 + Fields;
             int startRow = 2, startCol = 10;
             int formWidth = 50;
 
@@ -38,6 +39,24 @@ namespace BankManagementSystem
 
             int PwdCursorX = Console.CursorTop;
             int PwdCursorY = Console.CursorLeft;
+
+            int MenuCursorX = Console.CursorTop;
+            int MenuCursorY = Console.CursorLeft;
+
+            int FNCursorX = Console.CursorTop;
+            int FNCursorY = Console.CursorLeft;
+
+            int LNCursorX = Console.CursorTop;
+            int LNCursorY = Console.CursorLeft;
+
+            int AdCursorX = Console.CursorTop;
+            int AdCursorY = Console.CursorLeft;
+
+            int PhCursorX = Console.CursorTop;
+            int PhCursorY = Console.CursorLeft;
+
+            int EmCursorX = Console.CursorTop;
+            int EmCursorY = Console.CursorLeft;
 
             Console.Clear();
             origRow = Console.CursorTop;
@@ -71,14 +90,105 @@ namespace BankManagementSystem
                     {
                         RenderField(startCol, startRow, formWidth, line, ref LoginCursorX, ref LoginCursorY, 0);
                     }
+                    else if (myScreen.ScreenName == "Main Menu")
+                    {
+                        RenderField(startCol, startRow, formWidth, line, 0);
+                    }
+                    else if (myScreen.ScreenName == "Create new account")
+                    {
+                        RenderField(startCol, startRow, formWidth, line, ref FNCursorX, ref FNCursorY, 0);
+                    }
                     WriteAt('|', startCol + formWidth - 1, startRow + line);
                 }
-                else if (line == 6 && myScreen.ScreenName == "Login Menu")
+                else if (line == 6)
                 {
                     WriteAt('|', startCol, startRow + line);
                     if (myScreen.ScreenName == "Login Menu")
                     {
                         RenderField(startCol, startRow, formWidth, line, ref PwdCursorX, ref PwdCursorY, 1);
+                    }
+                    else if (myScreen.ScreenName == "Main Menu")
+                    {
+                        RenderField(startCol, startRow, formWidth, line, 1);
+                    }
+                    else if (myScreen.ScreenName == "Create new account")
+                    {
+                        RenderField(startCol, startRow, formWidth, line, ref LNCursorX, ref LNCursorY, 1);
+                    }
+                    WriteAt('|', startCol + formWidth - 1, startRow + line);
+                }
+                else if (line == 7)
+                {
+                    WriteAt('|', startCol, startRow + line);
+                    if (myScreen.ScreenName == "Main Menu")
+                    {
+                        RenderField(startCol, startRow, formWidth, line, 2);
+                    }
+                    else if (myScreen.ScreenName == "Create new account")
+                    {
+                        RenderField(startCol, startRow, formWidth, line, ref AdCursorX, ref AdCursorY, 2);
+                    }
+                    WriteAt('|', startCol + formWidth - 1, startRow + line);
+                }
+                else if (line == 8)
+                {
+                    WriteAt('|', startCol, startRow + line);
+                    if (myScreen.ScreenName == "Main Menu")
+                    {
+                        RenderField(startCol, startRow, formWidth, line, 3);
+                    }
+                    else if (myScreen.ScreenName == "Create new account")
+                    {
+                        RenderField(startCol, startRow, formWidth, line, ref PhCursorX, ref PhCursorY, 3);
+                    }
+                    WriteAt('|', startCol + formWidth - 1, startRow + line);
+                }
+                else if (line == 9)
+                {
+                    WriteAt('|', startCol, startRow + line);
+                    if (myScreen.ScreenName == "Main Menu")
+                    {
+                        RenderField(startCol, startRow, formWidth, line, 4);
+                    }
+                    else if (myScreen.ScreenName == "Create new account")
+                    {
+                        RenderField(startCol, startRow, formWidth, line, ref EmCursorX, ref EmCursorY, 4);
+                    }
+                    WriteAt('|', startCol + formWidth - 1, startRow + line);
+                }
+                else if (line == 10)
+                {
+                    WriteAt('|', startCol, startRow + line);
+                    if (myScreen.ScreenName == "Main Menu")
+                    {
+                        RenderField(startCol, startRow, formWidth, line, 5);
+                    }
+                    WriteAt('|', startCol + formWidth - 1, startRow + line);
+                }
+                else if (line == 11)
+                {
+                    WriteAt('|', startCol, startRow + line);
+                    if (myScreen.ScreenName == "Main Menu")
+                    {
+                        RenderField(startCol, startRow, formWidth, line, 6);
+                    }
+                    WriteAt('|', startCol + formWidth - 1, startRow + line);
+                }
+                else if (line == 12)
+                {
+                    WriteAt('|', startCol, startRow + line);
+                    if (myScreen.ScreenName == "Main Menu")
+                    {
+                        RenderSubTitle(startCol, startRow, formWidth, line);
+                    }
+                    WriteAt('|', startCol + formWidth - 1, startRow + line);
+                }
+                else if (line == 13)
+                {
+                    WriteAt('|', startCol, startRow + line);
+                    if (myScreen.ScreenName == "Main Menu")
+                    {
+                        RenderField(startCol, startRow, formWidth, line, ref MenuCursorX, ref MenuCursorY, 7);
                     }
                     WriteAt('|', startCol + formWidth - 1, startRow + line);
                 }
@@ -106,6 +216,29 @@ namespace BankManagementSystem
                 }
 
                 WriteWord(validCred, startCol, row);
+            }
+            else if (myScreen.ScreenName == "Main Menu")
+            {
+                Console.SetCursorPosition(MenuCursorY, MenuCursorX);
+                string menuChoice = Console.ReadLine();
+                option = Int32.Parse(menuChoice);
+            }
+            else if (myScreen.ScreenName == "Create new account")
+            {
+                Console.SetCursorPosition(FNCursorY, FNCursorX);
+                string firstName = Console.ReadLine();
+
+                Console.SetCursorPosition(LNCursorY, LNCursorX);
+                string lastName = Console.ReadLine();
+
+                Console.SetCursorPosition(AdCursorY, AdCursorX);
+                string address = Console.ReadLine();
+
+                Console.SetCursorPosition(PhCursorY, PhCursorX);
+                string phoneNo = Console.ReadLine();
+
+                Console.SetCursorPosition(EmCursorY, EmCursorX);
+                string email = Console.ReadLine();
             }
         }
 
@@ -218,10 +351,17 @@ namespace BankManagementSystem
         private void RenderField(int startCol, int startRow, int formWidth, int line, ref int CursorX, ref int CursorY, int fieldno)
         {
             string field = myScreen.Input[fieldno];
-            int startCol1 = ((startCol + formWidth) / 2) - field.Length / 2;
+            int startCol1 = ((startCol + formWidth) / 2);
             WriteWord(field, startCol / 2 + startCol1 / 2, startRow + line);
             CursorX = Console.CursorTop;
             CursorY = Console.CursorLeft;
+        }
+
+        private void RenderField(int startCol, int startRow, int formWidth, int line, int fieldno)
+        {
+            string field = myScreen.Input[fieldno];
+            int startCol1 = ((startCol + formWidth) / 2);
+            WriteWord(field, startCol / 2 + startCol1 / 2, startRow + line);
         }
 
         private void RenderTitle(int startCol, int startRow, int formWidth, int line)
