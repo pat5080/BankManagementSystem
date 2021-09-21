@@ -16,6 +16,7 @@ namespace BankManagementSystem
         private String Title;
         private String SubTitle;
         public int option;
+        private Account account;
 
         Screen myScreen;
 
@@ -57,7 +58,7 @@ namespace BankManagementSystem
 
             int EmCursorX = Console.CursorTop;
             int EmCursorY = Console.CursorLeft;
-
+            
             Console.Clear();
             origRow = Console.CursorTop;
             origCol = Console.CursorLeft;
@@ -239,6 +240,12 @@ namespace BankManagementSystem
 
                 Console.SetCursorPosition(EmCursorY, EmCursorX);
                 string email = Console.ReadLine();
+
+                Account account = new Account(firstName, lastName, address, phoneNo, email);
+
+                account.CreateAccount();
+
+                Console.ReadKey();
             }
         }
 
