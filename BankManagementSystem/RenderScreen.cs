@@ -58,7 +58,10 @@ namespace BankManagementSystem
 
             int EmCursorX = Console.CursorTop;
             int EmCursorY = Console.CursorLeft;
-            
+
+            int SearchCursorX = Console.CursorTop;
+            int SearchCursorY = Console.CursorLeft;
+
             Console.Clear();
             origRow = Console.CursorTop;
             origCol = Console.CursorLeft;
@@ -98,6 +101,10 @@ namespace BankManagementSystem
                     else if (myScreen.ScreenName == "Create new account")
                     {
                         RenderField(startCol, startRow, formWidth, line, ref FNCursorX, ref FNCursorY, 0);
+                    }
+                    else if (myScreen.ScreenName == "Search for account")
+                    {
+                        RenderField(startCol, startRow, formWidth, line, ref SearchCursorX, ref SearchCursorY, 0);
                     }
                     WriteAt('|', startCol + formWidth - 1, startRow + line);
                 }
@@ -247,6 +254,13 @@ namespace BankManagementSystem
 
                 Console.ReadKey();
             }
+            else if (myScreen.ScreenName == "Search for account")
+            {
+                Console.SetCursorPosition(SearchCursorX, SearchCursorY);
+                int accountNo = Convert.ToInt32(Console.ReadLine());
+
+                string response = SearchAccount(accountNo);
+            }
         }
 
         protected void WriteAt(char s, int col, int row)
@@ -383,6 +397,34 @@ namespace BankManagementSystem
             String subtitle = myScreen.SubTitle;
             int startCol1 = ((startCol + formWidth) / 2) - subtitle.Length / 2;
             WriteWord(subtitle, startCol / 2 + startCol1, startRow + line);
+        }
+
+        public String SearchAccount(int account)
+        {
+            string file;
+
+            try
+            {
+                // Open the text file using a stream reader.
+                /* using (var sr = new StreamReader(account + ".txt"))
+                {
+                    sr.ReadToEnd();
+                    file = sr.ToString;
+                } */
+
+                file = File.ReadAllText(account + ".txt");
+
+                return file;
+            }
+            catch (IOException e)
+            {
+                Console.WriteLine("The file could not be read.");
+                Console.WriteLine(e.Message);
+
+                string stringError = "File not found";
+                return stringError;
+            }
+
         }
 
     }
