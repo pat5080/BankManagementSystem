@@ -13,7 +13,8 @@ namespace BankManagementSystem
         public String Address;
         public String Phone;
         public String Email;
-
+        public int AccountNo;
+        public int Balance;
 
         public Account(String firstName, String lastName, String address, String phone, String email)
         {
@@ -31,9 +32,13 @@ namespace BankManagementSystem
 
         public void CreateAccount()
         {
-            string[] lines = { FirstName, LastName, Address, Phone, Email };
-
             int accountNo = GenerateRandom();
+
+            AccountNo = accountNo;
+
+            Balance = 200;
+
+            string[] lines = {AccountNo.ToString(), Balance.ToString(), FirstName, LastName, Address, Phone, Email };
 
             using StreamWriter file = new StreamWriter(accountNo + ".txt");
 
@@ -85,6 +90,8 @@ namespace BankManagementSystem
 
                 readFile(account + ".txt");
 
+                AccountNo = account;
+
                 return "success";
             }
             catch (IOException e)
@@ -106,6 +113,8 @@ namespace BankManagementSystem
             string address = "";
             string ph = "";
             string email = "";
+            string accountNo = "";
+            string balance = "";
 
             var lines = File.ReadLines(file);
 
@@ -114,29 +123,36 @@ namespace BankManagementSystem
                 switch (counter)
                 {
                     case 0:
-                        fname = line;
+                        accountNo = line;
                         break;
                     case 1:
-                        lname = line;
+                        balance = line;
                         break;
                     case 2:
-                        address = line;
+                        fname = line;
                         break;
                     case 3:
-                        ph = line;
+                        lname = line;
                         break;
                     case 4:
+                        address = line;
+                        break;
+                    case 5:
+                        ph = line;
+                        break;
+                    case 6:
                         email = line;
                         break;
                 } 
                 counter++;
             }
-
             FirstName = fname;
             LastName = lname;
             Address = address;
             Phone = ph;
             Email = email;
+            AccountNo = Convert.ToInt32(accountNo);
+            Balance = Convert.ToInt32(balance);
         }
     }
 }

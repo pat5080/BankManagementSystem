@@ -462,7 +462,13 @@ namespace BankManagementSystem
         {
             string found = "Account found!";
             WriteWord(found, 10, 12);
-            WriteWord(account.Email + "!", 10, 13);
+            string number = "Account No: ";
+            string funds = "Account Balance: $";
+            string Fname = "First name: ";
+            string Lname = "Last name: ";
+            string addressT = "Address: ";
+            string phoneF = "Phone: ";
+            string eMail = "Email: ";
 
             int noLines = 11;
             int startRow = 13, startCol = 10;
@@ -486,43 +492,43 @@ namespace BankManagementSystem
                 else if (line == 3)
                 {
                     WriteAt('|', startCol, startRow + line);
-
+                    RenderField(startCol, startRow, formWidth, line, number + Convert.ToString(account.AccountNo));
                     WriteAt('|', startCol + formWidth - 1, startRow + line);
                 }
                 else if (line == 4)
                 {
                     WriteAt('|', startCol, startRow + line);
-
+                    RenderField(startCol, startRow, formWidth, line, funds + Convert.ToString(account.Balance));
                     WriteAt('|', startCol + formWidth - 1, startRow + line);
                 }
                 else if (line == 5)
                 {
                     WriteAt('|', startCol, startRow + line);
-                    RenderField(startCol, startRow, formWidth, line, account.FirstName);
+                    RenderField(startCol, startRow, formWidth, line, Fname +  account.FirstName);
                     WriteAt('|', startCol + formWidth - 1, startRow + line);
                 }
                 else if (line == 6)
                 {
                     WriteAt('|', startCol, startRow + line);
-                    RenderField(startCol, startRow, formWidth, line, account.LastName);
+                    RenderField(startCol, startRow, formWidth, line, Lname + account.LastName);
                     WriteAt('|', startCol + formWidth - 1, startRow + line);
                 }
                 else if (line == 7)
                 {
                     WriteAt('|', startCol, startRow + line);
-                    RenderField(startCol, startRow, formWidth, line, account.Address);
+                    RenderField(startCol, startRow, formWidth, line, addressT + account.Address);
                     WriteAt('|', startCol + formWidth - 1, startRow + line);
                 }
                 else if (line == 8)
                 {
                     WriteAt('|', startCol, startRow + line);
-                    RenderField(startCol, startRow, formWidth, line, account.Phone);
+                    RenderField(startCol, startRow, formWidth, line, phoneF + account.Phone);
                     WriteAt('|', startCol + formWidth - 1, startRow + line);
                 }
                 else if (line == 9)
                 {
                     WriteAt('|', startCol, startRow + line);
-                    RenderField(startCol, startRow, formWidth, line, account.Email);
+                    RenderField(startCol, startRow, formWidth, line, eMail + account.Email);
                     WriteAt('|', startCol + formWidth - 1, startRow + line);
                 }
             }
