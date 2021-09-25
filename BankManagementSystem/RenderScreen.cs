@@ -256,10 +256,50 @@ namespace BankManagementSystem
             }
             else if (myScreen.ScreenName == "Search for account")
             {
-                Console.SetCursorPosition(SearchCursorX, SearchCursorY);
-                int accountNo = Convert.ToInt32(Console.ReadLine());
+                Account account = new Account();
 
-                string response = SearchAccount(accountNo);
+                string response = account.SearchAccount(ref SearchCursorX, ref SearchCursorY);
+
+
+                // Create a function for printing the rest of the functionality
+
+                if (response == "File not found")
+                {
+                    notFound(11); // Types out account not found
+                    string check = "Check another account (y/n)?";
+                    WriteWord(check, 10, 12);
+                    int RCursorX1 = Console.CursorTop;
+                    int RCursorY1 = Console.CursorLeft;
+                    Console.SetCursorPosition(RCursorY1, RCursorX1);
+                    string answer = Console.ReadLine();
+                    string account1;
+
+                    if (answer == "y")
+                    {
+                        int RetryCursorX1 = Console.CursorTop;
+                        int RetryCursorY1 = Console.CursorLeft;
+                        account1 = account.SearchAccount(ref RetryCursorX1, ref RetryCursorY1);
+
+                        if (account1 != "File not found")
+                        {
+                            validAccount(account);
+                        }
+                        else
+                        {
+                            notFound(9);
+                        }
+                    }
+                    else
+                    {
+                        Console.ReadKey();
+                    }
+                }
+                else
+                {
+                    validAccount(account);
+                }
+
+                Console.ReadKey();
             }
         }
 
@@ -385,9 +425,22 @@ namespace BankManagementSystem
             WriteWord(field, startCol / 2 + startCol1 / 2, startRow + line);
         }
 
+        private void RenderField(int startCol, int startRow, int formWidth, int line, string field)
+        {
+            int startCol1 = ((startCol + formWidth) / 2);
+            WriteWord(field, startCol / 2 + startCol1 / 2, startRow + line);
+        }
+
         private void RenderTitle(int startCol, int startRow, int formWidth, int line)
         {
             String title = myScreen.Title;
+            int startCol1 = ((startCol + formWidth) / 2) - title.Length / 2;
+            WriteWord(title, startCol / 2 + startCol1, startRow + line);
+        }
+
+        private void RenderTitleAccount(int startCol, int startRow, int formWidth, int line)
+        {
+            String title = "ACCOUNT DETAILS";
             int startCol1 = ((startCol + formWidth) / 2) - title.Length / 2;
             WriteWord(title, startCol / 2 + startCol1, startRow + line);
         }
@@ -399,33 +452,80 @@ namespace BankManagementSystem
             WriteWord(subtitle, startCol / 2 + startCol1, startRow + line);
         }
 
-        public String SearchAccount(int account)
+        private void notFound(int row)
         {
-            string file;
-
-            try
-            {
-                // Open the text file using a stream reader.
-                /* using (var sr = new StreamReader(account + ".txt"))
-                {
-                    sr.ReadToEnd();
-                    file = sr.ToString;
-                } */
-
-                file = File.ReadAllText(account + ".txt");
-
-                return file;
-            }
-            catch (IOException e)
-            {
-                Console.WriteLine("The file could not be read.");
-                Console.WriteLine(e.Message);
-
-                string stringError = "File not found";
-                return stringError;
-            }
-
+            string notFound = "Account not found!";
+            WriteWord(notFound, 10, row);
         }
 
+        private void validAccount(Account account)
+        {
+            string found = "Account found!";
+            WriteWord(found, 10, 12);
+            WriteWord(account.Email + "!", 10, 13);
+
+            int noLines = 11;
+            int startRow = 13, startCol = 10;
+            int formWidth = 50;
+
+            for (int line = 0; line < noLines; line++)
+            {
+                if (line == 0 | line == 2 | line == (noLines - 1))
+                {
+                    for (int col = 0; col < formWidth; col++)
+                    {
+                        WriteAt('=', startCol + col, startRow + line);
+                    }
+                }
+                else if (line == 1)
+                {
+                    WriteAt('|', startCol, startRow + line);
+                    RenderTitleAccount(startCol, startRow, formWidth, line);
+                    WriteAt('|', startCol + formWidth - 1, startRow + line);
+                }
+                else if (line == 3)
+                {
+                    WriteAt('|', startCol, startRow + line);
+
+                    WriteAt('|', startCol + formWidth - 1, startRow + line);
+                }
+                else if (line == 4)
+                {
+                    WriteAt('|', startCol, startRow + line);
+
+                    WriteAt('|', startCol + formWidth - 1, startRow + line);
+                }
+                else if (line == 5)
+                {
+                    WriteAt('|', startCol, startRow + line);
+                    RenderField(startCol, startRow, formWidth, line, account.FirstName);
+                    WriteAt('|', startCol + formWidth - 1, startRow + line);
+                }
+                else if (line == 6)
+                {
+                    WriteAt('|', startCol, startRow + line);
+                    RenderField(startCol, startRow, formWidth, line, account.LastName);
+                    WriteAt('|', startCol + formWidth - 1, startRow + line);
+                }
+                else if (line == 7)
+                {
+                    WriteAt('|', startCol, startRow + line);
+                    RenderField(startCol, startRow, formWidth, line, account.Address);
+                    WriteAt('|', startCol + formWidth - 1, startRow + line);
+                }
+                else if (line == 8)
+                {
+                    WriteAt('|', startCol, startRow + line);
+                    RenderField(startCol, startRow, formWidth, line, account.Phone);
+                    WriteAt('|', startCol + formWidth - 1, startRow + line);
+                }
+                else if (line == 9)
+                {
+                    WriteAt('|', startCol, startRow + line);
+                    RenderField(startCol, startRow, formWidth, line, account.Email);
+                    WriteAt('|', startCol + formWidth - 1, startRow + line);
+                }
+            }
+        }
     }
 }
