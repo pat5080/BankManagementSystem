@@ -8,7 +8,7 @@ namespace BankManagementSystem
     {
         public Deposit()
         {
-            Fields = 1;
+            Fields = 2;
             ScreenName = "Deposit";
             Title = "DEPOSIT";
             SubTitle = "ENTER THE DETAILS";

@@ -62,6 +62,12 @@ namespace BankManagementSystem
             int SearchCursorX = Console.CursorTop;
             int SearchCursorY = Console.CursorLeft;
 
+            int DepoCursorX = Console.CursorTop;
+            int DepoCursorY = Console.CursorLeft;
+
+            int WithCursorX = Console.CursorTop;
+            int WithCursorY = Console.CursorLeft;
+
             Console.Clear();
             origRow = Console.CursorTop;
             origCol = Console.CursorLeft;
@@ -106,6 +112,14 @@ namespace BankManagementSystem
                     {
                         RenderField(startCol, startRow, formWidth, line, ref SearchCursorX, ref SearchCursorY, 0);
                     }
+                    else if (myScreen.ScreenName == "Deposit")
+                    {
+                        RenderField(startCol, startRow, formWidth, line, ref SearchCursorX, ref SearchCursorY, 0);
+                    }
+                    else if (myScreen.ScreenName == "Withdrawal")
+                    {
+                        RenderField(startCol, startRow, formWidth, line, ref SearchCursorX, ref SearchCursorY, 0);
+                    }
                     WriteAt('|', startCol + formWidth - 1, startRow + line);
                 }
                 else if (line == 6)
@@ -122,6 +136,14 @@ namespace BankManagementSystem
                     else if (myScreen.ScreenName == "Create new account")
                     {
                         RenderField(startCol, startRow, formWidth, line, ref LNCursorX, ref LNCursorY, 1);
+                    }
+                    else if (myScreen.ScreenName == "Deposit")
+                    {
+                        RenderField(startCol, startRow, formWidth, line, ref DepoCursorX, ref DepoCursorY, 1);
+                    }
+                    else if (myScreen.ScreenName == "Withdrawal")
+                    {
+                        RenderField(startCol, startRow, formWidth, line, ref WithCursorX, ref WithCursorY, 1);
                     }
                     WriteAt('|', startCol + formWidth - 1, startRow + line);
                 }
@@ -301,6 +323,99 @@ namespace BankManagementSystem
 
                 Console.ReadKey();
             }
+            else if (myScreen.ScreenName == "Deposit")
+            {
+                Account account = new Account();
+                string response = account.SearchAccount(ref SearchCursorX, ref SearchCursorY);
+
+                if (response == "File not found")
+                {
+                    notFound(12); // Types out account not found
+                    string check = "Check another account (y/n)?";
+                    WriteWord(check, 10, 13);
+                    int RCursorX1 = Console.CursorTop;
+                    int RCursorY1 = Console.CursorLeft;
+                    Console.SetCursorPosition(RCursorY1, RCursorX1);
+                    string answer = Console.ReadLine();
+                    string account1;
+
+                    if (answer == "y")
+                    {
+                        int RetryCursorX1 = Console.CursorTop;
+                        int RetryCursorY1 = Console.CursorLeft;
+                        account1 = account.SearchAccount(ref SearchCursorX, ref SearchCursorY);
+
+                        if (account1 != "File not found")
+                        {
+                            Found(12);
+                            account.DepositAccount(ref DepoCursorX, ref DepoCursorY);
+                            DepositSuccess(13);
+                        }
+                        else
+                        {
+                            notFound(13);
+                        }
+                    }
+                    else
+                    {
+                        Console.ReadKey();
+                    }
+                }
+                else
+                {
+                    Found(12);
+                    account.DepositAccount(ref DepoCursorX, ref DepoCursorY);
+                    DepositSuccess(13);
+                }
+
+                Console.ReadKey();
+            }
+            else if (myScreen.ScreenName == "Withdrawal")
+            {
+                Account account = new Account();
+                string response = account.SearchAccount(ref SearchCursorX, ref SearchCursorY);
+
+                if (response == "File not found")
+                {
+                    notFound(12); // Types out account not found
+                    string check = "Check another account (y/n)?";
+                    WriteWord(check, 10, 13);
+                    int RCursorX1 = Console.CursorTop;
+                    int RCursorY1 = Console.CursorLeft;
+                    Console.SetCursorPosition(RCursorY1, RCursorX1);
+                    string answer = Console.ReadLine();
+                    string account1;
+
+                    if (answer == "y")
+                    {
+                        int RetryCursorX1 = Console.CursorTop;
+                        int RetryCursorY1 = Console.CursorLeft;
+                        account1 = account.SearchAccount(ref SearchCursorX, ref SearchCursorY);
+
+                        if (account1 != "File not found")
+                        {
+                            Found(12);
+                            account.WithdrawAccount(ref WithCursorX, ref WithCursorY);
+                            WithdrawSuccess(13);
+                        }
+                        else
+                        {
+                            notFound(13);
+                        }
+                    }
+                    else
+                    {
+                        Console.ReadKey();
+                    }
+                }
+                else
+                {
+                    Found(12);
+                    account.WithdrawAccount(ref WithCursorX, ref WithCursorY);
+                    WithdrawSuccess(13);
+                }
+                Console.ReadKey();
+            }
         }
 
         protected void WriteAt(char s, int col, int row)
@@ -415,6 +530,7 @@ namespace BankManagementSystem
             int startCol1 = ((startCol + formWidth) / 2);
             WriteWord(field, startCol / 2 + startCol1 / 2, startRow + line);
             CursorX = Console.CursorTop;
+
             CursorY = Console.CursorLeft;
         }
 
@@ -456,6 +572,24 @@ namespace BankManagementSystem
         {
             string notFound = "Account not found!";
             WriteWord(notFound, 10, row);
+        }
+
+        private void Found(int row)
+        {
+            string notFound = "Account found! Enter the amount...";
+            WriteWord(notFound, 10, row);
+        }
+
+        private void DepositSuccess(int row)
+        {
+            string success = "Deposit successful";
+            WriteWord(success, 10, row);
+        }
+
+        private void WithdrawSuccess(int row)
+        {
+            string success = "Withdrawal successful";
+            WriteWord(success, 10, row);
         }
 
         private void validAccount(Account account)

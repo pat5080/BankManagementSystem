@@ -96,12 +96,34 @@ namespace BankManagementSystem
             }
             catch (IOException e)
             {
-                Console.WriteLine("The file could not be read.");
+                //Console.WriteLine("The file could not be read.");
                 //Console.WriteLine(e.Message);
 
                 string stringError = "File not found";
                 return stringError;
             }
+        }
+
+        public void DepositAccount(ref int CursorX, ref int CursorY)
+        {
+            Console.SetCursorPosition(CursorY, CursorX);
+            int amount = Convert.ToInt32(Console.ReadLine());
+            writeFile(amount);
+        }
+
+        public void WithdrawAccount(ref int CursorX, ref int CursorY)
+        {
+            Console.SetCursorPosition(CursorY, CursorX);
+            int amount = Convert.ToInt32(Console.ReadLine());
+            writeFile(-amount);
+        }
+
+        private void writeFile(int amount)
+        {
+            int newAmount = this.Balance + amount;
+            string text = File.ReadAllText(this.AccountNo + ".txt");
+            text = text.Replace(this.Balance.ToString(), newAmount.ToString());
+            File.WriteAllText(this.AccountNo + ".txt", text);
         }
 
         public void readFile(string file)

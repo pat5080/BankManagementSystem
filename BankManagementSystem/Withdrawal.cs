@@ -8,7 +8,7 @@ namespace BankManagementSystem
     {
         public Withdrawal()
         {
-            Fields = 1;
+            Fields = 2;
             ScreenName = "Withdrawal";
             Title = "WITHDRAW";
             SubTitle = "ENTER THE DETAILS";
