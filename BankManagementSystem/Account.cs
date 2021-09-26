@@ -27,7 +27,7 @@ namespace BankManagementSystem
 
         public Account()
         {
-
+            
         }
 
         public void CreateAccount()
@@ -72,9 +72,14 @@ namespace BankManagementSystem
                 EnableSsl = true,
             };
 
-            smtpClient.Send("netdottest15@gmail.com", Email, "Your new account number: " + accountNo,
+            smtpClient.Send("netdottest15@gmail.com", Email, "Your account number: " + accountNo,
                 "First name: " + FirstName + "\nLast name: " + LastName + "\nAddress: " + Address + "\nPhone: "
                 + Phone + "\nEmail: " + Email);
+        }
+
+        public void DeleteAccount(int accountNo)
+        {
+            File.Delete(accountNo + ".txt");
         }
 
         public String SearchAccount(ref int sCursorX, ref int sCursorY)

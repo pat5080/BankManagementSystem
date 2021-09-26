@@ -108,15 +108,7 @@ namespace BankManagementSystem
                     {
                         RenderField(startCol, startRow, formWidth, line, ref FNCursorX, ref FNCursorY, 0);
                     }
-                    else if (myScreen.ScreenName == "Search for account")
-                    {
-                        RenderField(startCol, startRow, formWidth, line, ref SearchCursorX, ref SearchCursorY, 0);
-                    }
-                    else if (myScreen.ScreenName == "Deposit")
-                    {
-                        RenderField(startCol, startRow, formWidth, line, ref SearchCursorX, ref SearchCursorY, 0);
-                    }
-                    else if (myScreen.ScreenName == "Withdrawal")
+                    else if (myScreen.ScreenName == "Search for account" || myScreen.ScreenName == "Deposit" || myScreen.ScreenName == "Withdrawal" || myScreen.ScreenName == "Account Statement" || myScreen.ScreenName == "Delete and remove account")
                     {
                         RenderField(startCol, startRow, formWidth, line, ref SearchCursorX, ref SearchCursorY, 0);
                     }
@@ -416,7 +408,100 @@ namespace BankManagementSystem
                 }
                 Console.ReadKey();
             }
+            else if (myScreen.ScreenName == "Account Statement")
+            {
+                Account account = new Account();
+
+                string response = account.SearchAccount(ref SearchCursorX, ref SearchCursorY);
+
+
+                // Create a function for printing the rest of the functionality
+
+                if (response == "File not found")
+                {
+                    notFound(11); // Types out account not found
+                    string check = "Check another account (y/n)?";
+                    WriteWord(check, 10, 12);
+                    int RCursorX1 = Console.CursorTop;
+                    int RCursorY1 = Console.CursorLeft;
+                    Console.SetCursorPosition(RCursorY1, RCursorX1);
+                    string answer = Console.ReadLine();
+                    string account1;
+
+                    if (answer == "y")
+                    {
+                        int RetryCursorX1 = Console.CursorTop;
+                        int RetryCursorY1 = Console.CursorLeft;
+                        account1 = account.SearchAccount(ref RetryCursorX1, ref RetryCursorY1);
+
+                        if (account1 != "File not found")
+                        {
+                            validAccount(account);
+                        }
+                        else
+                        {
+                            notFound(9);
+                        }
+                    }
+                    else
+                    {
+                        Console.ReadKey();
+                    }
+                }
+                else
+                {
+                    validAccount(account);
+                }
+                Console.ReadKey();
+            }
+            else if (myScreen.ScreenName == "Delete and remove account")
+            {
+                Account account = new Account();
+
+                string response = account.SearchAccount(ref SearchCursorX, ref SearchCursorY);
+
+
+                // Create a function for printing the rest of the functionality
+
+                if (response == "File not found")
+                {
+                    notFound(11); // Types out account not found
+                    string check = "Check another account (y/n)?";
+                    WriteWord(check, 10, 12);
+                    int RCursorX1 = Console.CursorTop;
+                    int RCursorY1 = Console.CursorLeft;
+                    Console.SetCursorPosition(RCursorY1, RCursorX1);
+                    string answer = Console.ReadLine();
+                    string account1;
+
+                    if (answer == "y")
+                    {
+                        int RetryCursorX1 = Console.CursorTop;
+                        int RetryCursorY1 = Console.CursorLeft;
+                        account1 = account.SearchAccount(ref RetryCursorX1, ref RetryCursorY1);
+
+                        if (account1 != "File not found")
+                        {
+                            validAccount(account);
+                        }
+                        else
+                        {
+                            notFound(9);
+                        }
+                    }
+                    else
+                    {
+                        Console.ReadKey();
+                    }
+                }
+                else
+                {
+                    validAccount(account);
+                }
+                Console.ReadKey();
+            }
         }
+    
 
         protected void WriteAt(char s, int col, int row)
         {
@@ -534,6 +619,14 @@ namespace BankManagementSystem
             CursorY = Console.CursorLeft;
         }
 
+        private void RenderField(int startCol, int startRow, int formWidth, int line, ref int CursorX, ref int CursorY, string field)
+        {
+            int startCol1 = ((startCol + formWidth) / 2);
+            WriteWord(field, startCol / 2 + startCol1 / 2, startRow + line);
+            CursorX = Console.CursorTop;
+            CursorY = Console.CursorLeft;
+        }
+
         private void RenderField(int startCol, int startRow, int formWidth, int line, int fieldno)
         {
             string field = myScreen.Input[fieldno];
@@ -557,6 +650,13 @@ namespace BankManagementSystem
         private void RenderTitleAccount(int startCol, int startRow, int formWidth, int line)
         {
             String title = "ACCOUNT DETAILS";
+            int startCol1 = ((startCol + formWidth) / 2) - title.Length / 2;
+            WriteWord(title, startCol / 2 + startCol1, startRow + line);
+        }
+
+        private void RenderStateAccount(int startCol, int startRow, int formWidth, int line)
+        {
+            String title = "ACCOUNT STATEMENT";
             int startCol1 = ((startCol + formWidth) / 2) - title.Length / 2;
             WriteWord(title, startCol / 2 + startCol1, startRow + line);
         }
@@ -604,6 +704,9 @@ namespace BankManagementSystem
             string phoneF = "Phone: ";
             string eMail = "Email: ";
 
+            int EmCursorX = Console.CursorTop;
+            int EmCursorY = Console.CursorLeft;
+
             int noLines = 11;
             int startRow = 13, startCol = 10;
             int formWidth = 50;
@@ -620,7 +723,14 @@ namespace BankManagementSystem
                 else if (line == 1)
                 {
                     WriteAt('|', startCol, startRow + line);
-                    RenderTitleAccount(startCol, startRow, formWidth, line);
+                    if (myScreen.ScreenName == "Create new account" || myScreen.ScreenName == "Delete and remove account")
+                    {
+                        RenderTitleAccount(startCol, startRow, formWidth, line);
+                    }
+                    else if (myScreen.ScreenName == "Account Statement")
+                    {
+                        RenderStateAccount(startCol, startRow, formWidth, line);
+                    }
                     WriteAt('|', startCol + formWidth - 1, startRow + line);
                 }
                 else if (line == 3)
@@ -664,6 +774,30 @@ namespace BankManagementSystem
                     WriteAt('|', startCol, startRow + line);
                     RenderField(startCol, startRow, formWidth, line, eMail + account.Email);
                     WriteAt('|', startCol + formWidth - 1, startRow + line);
+                }
+            }
+            if (myScreen.ScreenName == "Account Statement")
+            {
+                RenderField(startCol, startRow, formWidth, 12, ref EmCursorX, ref EmCursorY, "Email statement: (y/n)? ");
+                Console.SetCursorPosition(EmCursorY, EmCursorX);
+                string answer = Console.ReadLine();
+
+                if(answer == "y")
+                {
+                    account.EmailDetails(account.AccountNo);
+                    WriteWord("Email sent successfully!", startCol, 27);
+                }
+            }
+            if (myScreen.ScreenName == "Delete and remove account")
+            {
+                RenderField(startCol, startRow, formWidth, 12, ref EmCursorX, ref EmCursorY, "Delete (y/n)? ");
+                Console.SetCursorPosition(EmCursorY, EmCursorX);
+                string answer = Console.ReadLine();
+
+                if (answer == "y")
+                {
+                    account.DeleteAccount(account.AccountNo);
+                    WriteWord("Account Deleted!...", startCol, 27);
                 }
             }
         }
