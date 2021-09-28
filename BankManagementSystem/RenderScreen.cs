@@ -13,10 +13,7 @@ namespace BankManagementSystem
         private static int origCol = 0;
 
         private int Fields;
-        private String Title;
-        private String SubTitle;
         public int option;
-        private Account account;
 
         Screen myScreen;
 
@@ -25,8 +22,6 @@ namespace BankManagementSystem
             this.myScreen = myScreen;
 
             Fields = myScreen.Fields;
-            Title = myScreen.Title;
-            SubTitle = myScreen.SubTitle;
         }
 
         public void ScreenRenderer()
