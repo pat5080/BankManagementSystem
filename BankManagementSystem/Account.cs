@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.IO;
 using System.Net.Mail;
+using System.ComponentModel.DataAnnotations;
 
 namespace BankManagementSystem
 {
@@ -11,12 +12,12 @@ namespace BankManagementSystem
         public String FirstName;
         public String LastName;
         public String Address;
-        public String Phone;
+        public int Phone;
         public String Email;
         public int AccountNo;
         public int Balance;
 
-        public Account(String firstName, String lastName, String address, String phone, String email)
+        public Account(String firstName, String lastName, String address, int phone, String email)
         {
             FirstName = firstName;
             LastName = lastName;
@@ -30,7 +31,7 @@ namespace BankManagementSystem
             
         }
 
-        public void CreateAccount()
+        public int CreateAccount()
         {
             int accountNo = GenerateRandom();
 
@@ -38,7 +39,7 @@ namespace BankManagementSystem
 
             Balance = 200;
 
-            string[] lines = {AccountNo.ToString(), Balance.ToString(), FirstName, LastName, Address, Phone, Email };
+            string[] lines = {AccountNo.ToString(), Balance.ToString(), FirstName, LastName, Address, Phone.ToString(), Email };
 
             using StreamWriter file = new StreamWriter(accountNo + ".txt");
 
@@ -50,6 +51,8 @@ namespace BankManagementSystem
             file.Close();
 
             EmailDetails(accountNo);
+
+            return accountNo;
         }
 
         private int GenerateRandom()
@@ -72,9 +75,17 @@ namespace BankManagementSystem
                 EnableSsl = true,
             };
 
-            smtpClient.Send("netdottest15@gmail.com", Email, "Your account number: " + accountNo,
-                "First name: " + FirstName + "\nLast name: " + LastName + "\nAddress: " + Address + "\nPhone: "
-                + Phone + "\nEmail: " + Email);
+            try
+            {
+                smtpClient.Send("netdottest15@gmail.com", Email, "Your account number: " + accountNo,
+                "Account no: " + accountNo + "\nBalance: $" + Balance + "\nFirst name: " + FirstName + "\nLast name: " + LastName + "\nAddress: " + Address + "\nPhone: "
+                + Phone.ToString() + "\nEmail: " + Email);
+            }
+            catch (SmtpException e)
+            {
+                Console.WriteLine("Error: {0}", e.StatusCode);
+            }
+
         }
 
         public void DeleteAccount(int accountNo)
@@ -85,7 +96,18 @@ namespace BankManagementSystem
         public String SearchAccount(ref int sCursorX, ref int sCursorY)
         {
             Console.SetCursorPosition(sCursorY, sCursorX);
-            int account = Convert.ToInt32(Console.ReadLine());
+            string saccount = Console.ReadLine();
+            int account;
+            bool success = int.TryParse(saccount, out account);
+
+            while (!success || saccount.Length > 10)
+            {
+                Console.SetCursorPosition(sCursorY, sCursorX);
+                Console.Write(new String(' ', saccount.Length));
+                Console.SetCursorPosition(sCursorY, sCursorX);
+                saccount = Console.ReadLine();
+                success = int.TryParse(saccount, out account);
+            }
 
             string file;
 
@@ -103,6 +125,9 @@ namespace BankManagementSystem
             {
                 //Console.WriteLine("The file could not be read.");
                 //Console.WriteLine(e.Message);
+                Console.SetCursorPosition(sCursorY, sCursorX);
+                Console.Write(new String(' ', saccount.Length));
+                Console.SetCursorPosition(sCursorY, sCursorX);
 
                 string stringError = "File not found";
                 return stringError;
@@ -176,7 +201,7 @@ namespace BankManagementSystem
             FirstName = fname;
             LastName = lname;
             Address = address;
-            Phone = ph;
+            Phone = int.Parse(ph);
             Email = email;
             AccountNo = Convert.ToInt32(accountNo);
             Balance = Convert.ToInt32(balance);

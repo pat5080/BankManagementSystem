@@ -243,7 +243,16 @@ namespace BankManagementSystem
             {
                 Console.SetCursorPosition(MenuCursorY, MenuCursorX);
                 string menuChoice = Console.ReadLine();
-                option = Int32.Parse(menuChoice);
+                int choice;
+                bool success = int.TryParse(menuChoice, out choice);
+                if (success)
+                {
+                    option = choice;
+                }
+                else
+                {
+                    option = 0;
+                }
             }
             else if (myScreen.ScreenName == "Create new account")
             {
@@ -258,13 +267,38 @@ namespace BankManagementSystem
 
                 Console.SetCursorPosition(PhCursorY, PhCursorX);
                 string phoneNo = Console.ReadLine();
+                int number;
+                bool success = int.TryParse(phoneNo, out number);
+
+                while(!success || phoneNo.Length > 10)
+                {             
+                    Console.SetCursorPosition(PhCursorY, PhCursorX);
+                    Console.Write(new String(' ', phoneNo.Length));
+                    Console.SetCursorPosition(PhCursorY, PhCursorX);
+                    phoneNo = Console.ReadLine();
+                    success = int.TryParse(phoneNo, out number);
+                }
 
                 Console.SetCursorPosition(EmCursorY, EmCursorX);
                 string email = Console.ReadLine();
+                bool validEmail = EmailCheck(email);
 
-                Account account = new Account(firstName, lastName, address, phoneNo, email);
+                while(!validEmail)
+                {
+                    Console.SetCursorPosition(EmCursorY, EmCursorX);
+                    Console.Write(new String(' ', email.Length));
+                    Console.SetCursorPosition(EmCursorY, EmCursorX);
+                    email = Console.ReadLine();
+                    validEmail = EmailCheck(email);
+                }
 
-                account.CreateAccount();
+
+                Account account = new Account(firstName, lastName, address, number, email);
+
+                int accountNo = account.CreateAccount();
+
+                WriteWord("Account created! Details will be provided via email.", 10, 15);
+                WriteWord("Your account number is: " + accountNo, 10, 16);
 
                 Console.ReadKey();
             }
@@ -290,9 +324,9 @@ namespace BankManagementSystem
 
                     if (answer == "y")
                     {
-                        int RetryCursorX1 = Console.CursorTop;
-                        int RetryCursorY1 = Console.CursorLeft;
-                        account1 = account.SearchAccount(ref RetryCursorX1, ref RetryCursorY1);
+                        
+                        account1 = account.SearchAccount(ref SearchCursorX, ref SearchCursorY);
+                        
 
                         if (account1 != "File not found")
                         {
@@ -300,20 +334,16 @@ namespace BankManagementSystem
                         }
                         else
                         {
-                            notFound(9);
+                            notFound(13);
                         }
-                    }
-                    else
-                    {
                         Console.ReadKey();
                     }
                 }
                 else
                 {
                     validAccount(account);
+                    Console.ReadKey();
                 }
-
-                Console.ReadKey();
             }
             else if (myScreen.ScreenName == "Deposit")
             {
@@ -341,16 +371,12 @@ namespace BankManagementSystem
                         {
                             Found(12);
                             account.DepositAccount(ref DepoCursorX, ref DepoCursorY);
-                            DepositSuccess(13);
+                            DepositSuccess(14);
                         }
                         else
                         {
-                            notFound(13);
+                            notFound(14);
                         }
-                    }
-                    else
-                    {
-                        Console.ReadKey();
                     }
                 }
                 else
@@ -359,8 +385,6 @@ namespace BankManagementSystem
                     account.DepositAccount(ref DepoCursorX, ref DepoCursorY);
                     DepositSuccess(13);
                 }
-
-                Console.ReadKey();
             }
             else if (myScreen.ScreenName == "Withdrawal")
             {
@@ -395,10 +419,6 @@ namespace BankManagementSystem
                             notFound(13);
                         }
                     }
-                    else
-                    {
-                        Console.ReadKey();
-                    }
                 }
                 else
                 {
@@ -406,7 +426,6 @@ namespace BankManagementSystem
                     account.WithdrawAccount(ref WithCursorX, ref WithCursorY);
                     WithdrawSuccess(13);
                 }
-                Console.ReadKey();
             }
             else if (myScreen.ScreenName == "Account Statement")
             {
@@ -430,9 +449,9 @@ namespace BankManagementSystem
 
                     if (answer == "y")
                     {
-                        int RetryCursorX1 = Console.CursorTop;
-                        int RetryCursorY1 = Console.CursorLeft;
-                        account1 = account.SearchAccount(ref RetryCursorX1, ref RetryCursorY1);
+
+                        account1 = account.SearchAccount(ref SearchCursorX, ref SearchCursorY);
+
 
                         if (account1 != "File not found")
                         {
@@ -440,19 +459,16 @@ namespace BankManagementSystem
                         }
                         else
                         {
-                            notFound(9);
+                            notFound(13);
                         }
-                    }
-                    else
-                    {
                         Console.ReadKey();
                     }
                 }
                 else
                 {
                     validAccount(account);
+                    Console.ReadKey();
                 }
-                Console.ReadKey();
             }
             else if (myScreen.ScreenName == "Delete and remove account")
             {
@@ -472,15 +488,13 @@ namespace BankManagementSystem
                     int RCursorY1 = Console.CursorLeft;
                     Console.SetCursorPosition(RCursorY1, RCursorX1);
                     string answer = Console.ReadLine();
-                    string account1;
+                    
 
                     if (answer == "y")
                     {
-                        int RetryCursorX1 = Console.CursorTop;
-                        int RetryCursorY1 = Console.CursorLeft;
-                        account1 = account.SearchAccount(ref RetryCursorX1, ref RetryCursorY1);
+                        response = account.SearchAccount(ref SearchCursorX, ref SearchCursorY);
 
-                        if (account1 != "File not found")
+                        if (response != "File not found")
                         {
                             validAccount(account);
                         }
@@ -488,10 +502,6 @@ namespace BankManagementSystem
                         {
                             notFound(9);
                         }
-                    }
-                    else
-                    {
-                        Console.ReadKey();
                     }
                 }
                 else
@@ -579,8 +589,12 @@ namespace BankManagementSystem
             SecureString pass = new SecureString();
 
             Console.SetCursorPosition(LoginCursorY, LoginCursorX);
+            Console.Write(new String(' ', 25));
+            Console.SetCursorPosition(LoginCursorY, LoginCursorX);
             string inputUserName = Console.ReadLine();
 
+            Console.SetCursorPosition(PwdCursorY, PwdCursorX);
+            Console.Write(new String(' ', 25));
             Console.SetCursorPosition(PwdCursorY, PwdCursorX);
 
             do
@@ -678,6 +692,23 @@ namespace BankManagementSystem
         {
             string notFound = "Account found! Enter the amount...";
             WriteWord(notFound, 10, row);
+        }
+
+        private bool EmailCheck(string email)
+        {
+            char at = '@';
+            string google = "gmail.com";
+            string microsoft = "outlook.com";
+            string uts = "uts.edu.au";
+            
+            if(email.Contains(at) && (email.Contains(google) || email.Contains(microsoft) || email.Contains(uts)))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
 
         private void DepositSuccess(int row)
