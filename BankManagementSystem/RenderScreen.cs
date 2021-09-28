@@ -476,7 +476,6 @@ namespace BankManagementSystem
 
                 string response = account.SearchAccount(ref SearchCursorX, ref SearchCursorY);
 
-
                 // Create a function for printing the rest of the functionality
 
                 if (response == "File not found")
@@ -488,27 +487,30 @@ namespace BankManagementSystem
                     int RCursorY1 = Console.CursorLeft;
                     Console.SetCursorPosition(RCursorY1, RCursorX1);
                     string answer = Console.ReadLine();
-                    
+                    string account1;
 
                     if (answer == "y")
                     {
-                        response = account.SearchAccount(ref SearchCursorX, ref SearchCursorY);
 
-                        if (response != "File not found")
+                        account1 = account.SearchAccount(ref SearchCursorX, ref SearchCursorY);
+
+
+                        if (account1 != "File not found")
                         {
                             validAccount(account);
                         }
                         else
                         {
-                            notFound(9);
+                            notFound(13);
                         }
+                        Console.ReadKey();
                     }
                 }
                 else
                 {
                     validAccount(account);
+                    Console.ReadKey();
                 }
-                Console.ReadKey();
             }
         }
     
