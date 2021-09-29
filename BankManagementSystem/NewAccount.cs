@@ -2,6 +2,12 @@
 using System.Collections.Generic;
 using System.Text;
 
+/*
+ * The NewAccount class child of Screen contains attributes that specifically relate to it's purpose.
+ * It contains the amount of fields it has, title, subtitle and specific strings it will output for
+ * the fields.
+ */
+
 namespace BankManagementSystem
 {
     class NewAccount : Screen

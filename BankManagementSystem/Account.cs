@@ -5,6 +5,12 @@ using System.IO;
 using System.Net.Mail;
 using System.ComponentModel.DataAnnotations;
 
+/*  
+    The account class encapsulates the functionality of a bank account. It has attributes that define it by the first name, last name etc..
+    and class methods that are used on deposits, withdrawals, account deletion, etc. It contains the methods that send out emails on account
+    creation and when a bank statement is requested. It has all the file reading and file writing functionality needed.
+ */
+
 namespace BankManagementSystem
 {
     class Account

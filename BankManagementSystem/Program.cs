@@ -6,6 +6,13 @@ using System.Threading.Tasks;
 using static System.ConsoleColor;
 using System.Drawing;
 
+/* 
+ This file holds the entry point to the whole program via the main method. It manages the different screens accordingly.
+Once a user logs into the bank management system they have a main menu where they can choose many different options.
+Each screen that a user goes to will be instantiated and rendered with the correct parameters.
+ 
+ */
+
 namespace BankManagementSystem
 {
     class Program

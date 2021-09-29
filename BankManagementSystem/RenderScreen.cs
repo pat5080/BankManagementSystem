@@ -7,6 +7,14 @@ using System.Runtime.InteropServices;
 
 namespace BankManagementSystem
 {
+    /* 
+     This class contains all functionality related to printing the screens and accessing information in order
+    for it to be printed to the screen. Foe example when a new account is created or an account is found it uses
+    an object of the class Account to pull out information in regards to the balance, name etc. This class has 
+    a constructor for a Screen object which pulls out information in regards to that specific screen (number of fields etc)
+    and based on this information it renders the different fields and gets user input. This classes also contains many small
+    private 'helper' methods that are called to print small blocks of text.
+     */
     class RenderScreen
     {
         private static int origRow = 0;
@@ -23,6 +31,9 @@ namespace BankManagementSystem
 
             Fields = myScreen.Fields;
         }
+
+        /* This ScreenRenderer below is the main function that handles rendering the screen view. Based on user input it decides
+         how and what to render.*/
 
         public void ScreenRenderer()
         {
